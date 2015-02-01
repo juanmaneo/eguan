@@ -4,7 +4,7 @@ package com.oodrive.nuage.nrs;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -248,23 +248,6 @@ public final class NrsFileJanitor {
         openedFileHandler.cachePut(result.getDescriptor().getFileId(), result);
 
         return result;
-    }
-
-    public final NrsFile createNrsFile(final NrsFileHeader<NrsFile> nrsFileHeaderTemplate, final NrsFileFlag... flags)
-            throws NrsException {
-        final NrsFileHeader.Builder<NrsFile> headerBuilder = newNrsFileHeaderBuilder();
-        headerBuilder.parent(nrsFileHeaderTemplate.getParentId());
-        headerBuilder.device(nrsFileHeaderTemplate.getDeviceId());
-        headerBuilder.node(nrsFileHeaderTemplate.getNodeId());
-        headerBuilder.file(nrsFileHeaderTemplate.getFileId());
-        // Data format
-        headerBuilder.addFlags(flags).blockSize(nrsFileHeaderTemplate.getBlockSize())
-                .hashSize(nrsFileHeaderTemplate.getHashSize());
-        // Size and time stamp
-        headerBuilder.timestamp(nrsFileHeaderTemplate.getTimestamp());
-        headerBuilder.size(nrsFileHeaderTemplate.getSize());
-        final NrsFileHeader<NrsFile> nrsFileHeader = headerBuilder.build();
-        return createNrsFile(nrsFileHeader);
     }
 
     /**

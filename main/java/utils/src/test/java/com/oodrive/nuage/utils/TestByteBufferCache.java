@@ -4,7 +4,7 @@ package com.oodrive.nuage.utils;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,7 @@ package com.oodrive.nuage.utils;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 /**

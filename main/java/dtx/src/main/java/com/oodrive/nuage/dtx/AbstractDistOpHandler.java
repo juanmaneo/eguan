@@ -4,7 +4,7 @@ package com.oodrive.nuage.dtx;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
+import java.util.UUID;
 
 import javax.annotation.Nonnull;
 
@@ -42,6 +43,7 @@ import com.oodrive.nuage.proto.dtx.DistTxWrapper.TxNode;
  * @author pwehrle
  * 
  */
+// TODO: factor out anything specific to distributed transaction execution and make NodeIdUpdateHandler extend this
 abstract class AbstractDistOpHandler implements HazelcastInstanceAware, Serializable {
 
     private static final long serialVersionUID = 2251209817819094363L;
@@ -93,6 +95,24 @@ abstract class AbstractDistOpHandler implements HazelcastInstanceAware, Serializ
         }
 
         return ((ManagedDtxContext) managedContext).getTransactionManager();
+    }
+
+    /**
+     * Gets the local node ID.
+     * 
+     * @return the {@link UUID} of this node or <code>null</code> if it could not be retrieved
+     */
+    protected final UUID getNodeId() {
+        if (hazelcastInstance == null) {
+            return null;
+        }
+
+        final ManagedContext managedContext = hazelcastInstance.getConfig().getManagedContext();
+        if (!(managedContext instanceof ManagedDtxContext)) {
+            return null;
+        }
+
+        return ((ManagedDtxContext) managedContext).getNodeId();
     }
 
     /**

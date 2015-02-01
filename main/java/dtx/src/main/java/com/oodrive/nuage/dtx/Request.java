@@ -4,7 +4,7 @@ package com.oodrive.nuage.dtx;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ package com.oodrive.nuage.dtx;
  * #L%
  */
 
-import static com.google.common.base.Objects.toStringHelper;
+import static com.google.common.base.MoreObjects.toStringHelper;
 
 import java.util.Arrays;
 import java.util.Objects;

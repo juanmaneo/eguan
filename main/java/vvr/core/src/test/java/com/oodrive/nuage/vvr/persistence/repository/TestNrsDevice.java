@@ -4,7 +4,7 @@ package com.oodrive.nuage.vvr.persistence.repository;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,7 +31,7 @@ import com.oodrive.nuage.nrs.NrsFile;
 import com.oodrive.nuage.utils.ByteArrays;
 import com.oodrive.nuage.utils.SimpleIdentifierProvider;
 import com.oodrive.nuage.utils.UuidT;
-import com.oodrive.nuage.vvr.repository.core.api.AbstractDeviceImplHelper.BlockKeyLookupEx;
+import com.oodrive.nuage.vvr.repository.core.api.BlockKeyLookupEx;
 import com.oodrive.nuage.vvr.repository.core.api.TestDeviceAbstract;
 
 /**

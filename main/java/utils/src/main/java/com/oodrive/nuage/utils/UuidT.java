@@ -4,7 +4,7 @@ package com.oodrive.nuage.utils;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,6 +24,7 @@ import java.util.Objects;
 import java.util.UUID;
 
 import javax.annotation.Nonnull;
+import javax.annotation.concurrent.Immutable;
 
 /**
  * Same as {@link UUID}, but can be typed.
@@ -34,6 +35,7 @@ import javax.annotation.Nonnull;
  * @param <F>
  *            class of object identified by this UUID.
  */
+@Immutable
 public final class UuidT<F> {
 
     private final UUID uuid;

@@ -91,6 +91,7 @@
 					<encoding>${project.build.sourceEncoding}</encoding>
 				</configuration>
 			</plugin>
+<!--
 			<plugin>
 				<artifactId>maven-javadoc-plugin</artifactId>
 				<version>2.9</version>
@@ -103,6 +104,7 @@
 					</execution>
 				</executions>
 			</plugin>
+-->
 			<plugin>
 				<artifactId>maven-source-plugin</artifactId>
                 <!--
@@ -240,9 +242,7 @@
 			</plugin>
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
-                <!--
 				<version>1.7</version>
-                 -->
 				<configuration>
 					<target>
 						<delete dir="${project.build.directory}/site" />

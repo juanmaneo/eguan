@@ -4,7 +4,7 @@ package com.oodrive.nuage.vvr.repository.core.api;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -292,25 +292,6 @@ public interface Device extends VvrItem {
         @Override
         void close();
 
-    }
-
-    /**
-     * Builder for a device instance, essentially implements the {@link #build()} method.
-     * 
-     * 
-     */
-    interface Builder extends VvrItem.Builder {
-
-        /**
-         * Builds the device instance.
-         * <p>
-         * 
-         * Implementing classes must throw exceptions should the build fail for some reason rather than return a faulty
-         * instance or null.
-         * 
-         * @return the fully functional object instance
-         */
-        Device build();
     }
 
 }

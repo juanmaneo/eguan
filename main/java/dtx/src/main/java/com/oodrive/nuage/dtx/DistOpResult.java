@@ -4,7 +4,7 @@ package com.oodrive.nuage.dtx;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import java.io.Serializable;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
-import com.google.common.base.Objects;
+import com.google.common.base.MoreObjects;
 
 /**
  * Result container for distributed operations.
@@ -79,7 +79,7 @@ final class DistOpResult implements Serializable {
      *            the non-<code>null</code> {@link Throwable} instance causing the return of an error
      */
     DistOpResult(final int exitStatus, @Nonnull final Throwable error) {
-        this(exitStatus, error.getMessage() == null ? error.getClass().getName() : error.getMessage());
+        this(exitStatus, error.getClass().getName() + (error.getMessage() == null ? "" : ": " + error.getMessage()));
     }
 
     /**
@@ -102,7 +102,7 @@ final class DistOpResult implements Serializable {
 
     @Override
     public String toString() {
-        return Objects.toStringHelper(DistOpResult.class).add("exitStatus", this.exitStatus)
+        return MoreObjects.toStringHelper(DistOpResult.class).add("exitStatus", this.exitStatus)
                 .add("message", this.message).toString();
     }
 }

@@ -4,7 +4,7 @@ package com.oodrive.nuage.vvr.repository.core.api;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -107,14 +107,8 @@ public interface UniqueVvrObject {
          * Sets the unique ID.
          * <p>
          * 
-         * <i>OPTIONAL.</i>
+         * <i>MANDATORY.</i>
          * <p>
-         * 
-         * Implementing classes must:
-         * <ul>
-         * <li>provide a default (random) UUID in case this method is not called before build,</li>
-         * <li>make sure the UUID cannot be set to null.</li>
-         * </ul>
          * 
          * @param uuid
          *            the non-null {@link UUID} object to be the immutable identifier of the object.

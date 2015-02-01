@@ -4,7 +4,7 @@ package com.oodrive.nuage.hash;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -317,7 +317,7 @@ public enum HashAlgorithm {
         return getByteBufferDigestProvider(byteString.asReadOnlyByteBuffer());
     }
 
-    private static final ByteBufferDigestProvider getByteBufferDigestProvider(final HashAlgorithm hashAlgorithm,
+    static final ByteBufferDigestProvider getByteBufferDigestProvider(final HashAlgorithm hashAlgorithm,
             final Digest digest) {
         // Allocate result: header <digest> trailer
         final int len = digest.getDigestSize();
@@ -341,7 +341,7 @@ public enum HashAlgorithm {
      *            Computed digest. The {@link ByteBuffer} is released.
      * @return the digest provider
      */
-    private static final ByteBufferDigestProvider getByteBufferDigestProvider(final HashAlgorithm hashAlgorithm,
+    static final ByteBufferDigestProvider getByteBufferDigestProvider(final HashAlgorithm hashAlgorithm,
             final ByteBuffer digest) {
         try {
             // Allocate result: header <digest> trailer

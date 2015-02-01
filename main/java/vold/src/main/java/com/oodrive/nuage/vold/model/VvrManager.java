@@ -4,7 +4,7 @@ package com.oodrive.nuage.vold.model;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -1270,7 +1270,10 @@ public final class VvrManager implements VvrManagerMXBean, MsgServerHandler {
         }
         catch (final IllegalStateException e) {
             // Most of the time, a pre-condition error
-            throw new XAException(XAException.XA_RBROLLBACK);
+            LOGGER.error("Exception on prepare", e);
+            final XAException xaException = new XAException(XAException.XA_RBROLLBACK);
+            xaException.initCause(e);
+            throw xaException;
         }
     }
 

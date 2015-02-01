@@ -4,7 +4,7 @@ package com.oodrive.nuage.vold.model;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,7 +48,7 @@ import javax.management.QueryExp;
 import javax.management.ReflectionException;
 import javax.management.loading.ClassLoaderRepository;
 
-import junit.framework.Assert;
+import org.junit.Assert;
 
 import com.oodrive.nuage.dtx.DtxManager;
 import com.oodrive.nuage.dtx.DtxManager.DtxLocalNode;

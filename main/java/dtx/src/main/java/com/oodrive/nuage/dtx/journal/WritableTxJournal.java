@@ -4,7 +4,7 @@ package com.oodrive.nuage.dtx.journal;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,6 +53,7 @@ import javax.annotation.concurrent.GuardedBy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.google.common.base.MoreObjects;
 import com.google.common.base.Strings;
 import com.google.common.io.Files;
 import com.oodrive.nuage.dtx.journal.JournalRotationManager.RotationEvent;
@@ -754,7 +755,7 @@ public final class WritableTxJournal implements Iterable<JournalRecord> {
 
     @Override
     public final String toString() {
-        return com.google.common.base.Objects.toStringHelper(WritableTxJournal.class).add("journalFile", journalFile)
+        return MoreObjects.toStringHelper(WritableTxJournal.class).add("journalFile", journalFile)
                 .add("started", started).add("rotationThreshold", rotationThreshold).toString();
     }
 

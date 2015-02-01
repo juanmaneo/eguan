@@ -4,7 +4,7 @@ package com.oodrive.nuage.vold;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -115,9 +115,7 @@ public class TestVold {
     private void launchVold(final String[] javaArgs) throws IOException {
         final String classpath = System.getProperty("java.class.path");
         final String main = Vold.class.getName();
-        // Add -XX:-UseSplitVerifier for emma (see root pom.xml) and disable emma in launched JVM (fails)
-        String[] args = new String[] { "java", "-XX:-UseSplitVerifier", "-Demma.rt.control=false", "-cp", classpath,
-                main };
+        String[] args = new String[] { "java", "-cp", classpath, main };
         if (javaArgs != null) {
             args = ObjectArrays.concat(args, javaArgs, String.class);
         }

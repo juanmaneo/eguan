@@ -4,7 +4,7 @@ package com.oodrive.nuage.vold.rest.resources;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,9 +22,8 @@ package com.oodrive.nuage.vold.rest.resources;
 
 import java.io.IOException;
 
-import junit.framework.Assert;
-
 import org.junit.AfterClass;
+import org.junit.Assert;
 import org.junit.BeforeClass;
 import org.junit.runners.model.InitializationError;
 import org.slf4j.Logger;

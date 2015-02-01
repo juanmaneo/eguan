@@ -21,7 +21,6 @@
         <name>Oodrive</name>
         <url>http://www.oodrive.com/</url>
     </organization>
-    <!-- the first year of project -->
     <inceptionYear>2012</inceptionYear>
     <licenses>
         <license>
@@ -30,30 +29,44 @@
         </license>
     </licenses>
 
+    <scm>
+        <connection>scm:git:https://github.com/oodrive/eguan.git</connection>
+    </scm>
+
     <properties>
         <projectName>eguan</projectName>
+
+        <!-- Charset -->
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+        <!-- NAR AOL supported by this project -->
+        <localAOL>amd64-Linux-gpp</localAOL>
 
         <!-- Default temporary file directory -->
         <tmpdir>/tmp</tmpdir>
 
+        <!-- Memory for unit tests -->
+        <unitests.mem>-Xmx1536m</unitests.mem>
+
         <!-- Version of dependencies -->
         <apacheCxfVersion>2.7.0</apacheCxfVersion>
-        <aspectjrtVersion>1.7.2</aspectjrtVersion>
-        <bcprovVersion>1.47</bcprovVersion>
+        <aspectjrtVersion>1.8.0</aspectjrtVersion>
+        <bcprovVersion>1.51</bcprovVersion>
         <GgleTestVersion>1.6.0</GgleTestVersion>
-        <guavaVersion>15.0</guavaVersion>
+        <guavaVersion>18.0</guavaVersion>
         <hazelcastVersion>2.5</hazelcastVersion>
-        <hppcVersion>0.5.3</hppcVersion>
-        <jettyVersion>8.1.5.v20120716</jettyVersion>
-        <jerseyVersion>1.13</jerseyVersion>
-        <jsr305Version>2.0.1</jsr305Version>
-        <junitVersion>4.10</junitVersion>
+        <hppcVersion>0.6.0</hppcVersion>
+        <jettyVersion>9.2.6.v20141205</jettyVersion>
+        <jerseyVersion>1.18.3</jerseyVersion>
+        <jsr305Version>3.0.0</jsr305Version>
+        <junitVersion>4.12</junitVersion>
         <jscsiVersion>2.5.1-oodrive</jscsiVersion>
         <leveldbVersion>1.16.0-oodrive</leveldbVersion>
         <log4cplusVersion>1.1.2-rc2-oodrive</log4cplusVersion>
-        <logbackVersion>1.1.1</logbackVersion>
-        <mockitoVersion>1.9.5</mockitoVersion>
-        <nettyVersion>3.8.0.Final</nettyVersion>
+        <logbackVersion>1.1.2</logbackVersion>
+        <mockitoVersion>1.10.17</mockitoVersion>
+        <nettyVersion>4.0.24.Final</nettyVersion>
         <perfidixVersion>3.6.8-SNAPSHOT</perfidixVersion>
         <protobufRpcProVersion>3.0.0</protobufRpcProVersion>
         <protobufVersion>2.4.1</protobufVersion>
@@ -90,19 +103,204 @@
         <pluginManagement>
             <plugins>
 
-                <!-- add license to sources -->
+                <!-- Set default version of Java -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>3.2</version>
+                    <configuration>
+                        <source>1.7</source>
+                        <target>1.7</target>
+                    </configuration>
+                </plugin>
+
+                <!-- Unit test plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.18</version>
+                    <configuration>
+                        <!-- Raise max memory for unit tests -->
+                        <argLine>${unitests.mem}</argLine>
+                        <!-- Ignore 'long' JAR tests by default -->
+                        <excludes>
+                            <exclude>**/*L.java</exclude>
+                        </excludes>
+                        <!-- Set temporary file directory -->
+                        <systemPropertyVariables>
+                            <java.io.tmpdir>${tmpdir}</java.io.tmpdir>
+                        </systemPropertyVariables>
+                    </configuration>
+                </plugin>
+
+                <!-- Integration test plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>2.18</version>
+                    <executions>
+                        <execution>
+                            <goals>
+                                <goal>integration-test</goal>
+                                <goal>verify</goal>
+                            </goals>
+                            <configuration>
+                                <!-- Raise max memory for integration tests -->
+                                <argLine>${unitests.mem}</argLine>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Unit test coverage plugin. Enabled with profile 'coverage' -->
+                <plugin>
+                    <groupId>org.jacoco</groupId>
+                    <artifactId>jacoco-maven-plugin</artifactId>
+                    <version>0.7.2.201409121644</version>
+                    <executions>
+                        <!-- Prepare agent before running tests with surefire -->
+                        <execution>
+                            <id>pre-unit-test</id>
+                            <goals>
+                                <goal>prepare-agent</goal>
+                            </goals>
+                            <configuration>
+                                <destFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</destFile>
+                                <propertyName>surefireArgLine</propertyName>
+                            </configuration>
+                        </execution>
+                        <!-- Create report if the tests are successful -->
+                        <execution>
+                            <id>post-unit-test</id>
+                            <phase>test</phase>
+                            <goals>
+                                <goal>report</goal>
+                            </goals>
+                            <configuration>
+                                <!-- Data file: same as prepare-agent -->
+                                <dataFile>${project.build.directory}/coverage-reports/jacoco-ut.exec</dataFile>
+                                <outputDirectory>${project.reporting.outputDirectory}/jacoco-ut</outputDirectory>
+                            </configuration>
+                        </execution>
+                    </executions>
+                </plugin>
+
+                <!-- Needs the oodrive version of the NAR plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-nar-plugin</artifactId>
+                    <version>2.1-oodrive</version>
+                    <extensions>true</extensions>
+                    <configuration>
+                        <!-- Raise max memory for unit tests -->
+                        <argLine>${unitests.mem}</argLine>
+                        <!-- Ignore 'long' NAR tests by default -->
+                        <excludes>
+                            <exclude>**/*L.java</exclude>
+                            <exclude>**/*$*</exclude>
+                        </excludes>
+                        <!-- Set temporary file directory -->
+                        <systemProperties>
+                            <property>
+                                <name>java.io.tmpdir</name>
+                                <value>${tmpdir}</value>
+                            </property>
+                        </systemProperties>
+                    </configuration>
+                </plugin>
+
+                <!-- Create protobuf classes -->
+                <plugin>
+                    <groupId>com.google.protobuf.tools</groupId>
+                    <artifactId>maven-protoc-plugin</artifactId>
+                    <version>0.1.11-oodrive</version>
+                </plugin>
+
+                <!-- Create jar with dependencies -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>2.3</version>
+                </plugin>
+
+                <!-- Assembly plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-assembly-plugin</artifactId>
+                    <version>2.5.2</version>
+                </plugin>
+
+                <!-- Clean plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-clean-plugin</artifactId>
+                    <version>2.6.1</version>
+                </plugin>
+
+                <!-- Jar plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+
+                <!-- War plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-war-plugin</artifactId>
+                    <version>2.5</version>
+                </plugin>
+
+                <!-- Source plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.4</version>
+                </plugin>
+
+                <!-- Apache CXF wadl2java plugin -->
+                <plugin>
+                    <groupId>org.apache.cxf</groupId>
+                    <artifactId>cxf-wadl2java-plugin</artifactId>
+                    <version>3.0.1</version>
+                </plugin>
+
+                <!-- Codehaus build number plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>buildnumber-maven-plugin</artifactId>
+                    <version>1.3</version>
+                </plugin>
+
+                <!-- Codehaus exec plugin -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>exec-maven-plugin</artifactId>
+                    <version>1.3.2</version>
+                </plugin>
+
+                <!-- Helper plugin. Add generated code into classpath -->
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>build-helper-maven-plugin</artifactId>
+                    <version>1.9.1</version>
+                </plugin>
+
+                <!-- Add license to sources -->
                 <plugin>
                     <groupId>org.codehaus.mojo</groupId>
                     <artifactId>license-maven-plugin</artifactId>
-                    <version>1.7</version>
+                    <version>1.8</version>
                     <configuration>
+                        <projectName>Project eguan</projectName>
                         <licenseName>apache_v2</licenseName>
                         <canUpdateCopyright>true</canUpdateCopyright>
                         <canUpdateDescription>true</canUpdateDescription>
                         <canUpdateLicense>true</canUpdateLicense>
-                        <verbose>true</verbose>
                         <roots>
-                            <root>main</root>
+                            <root>src</root>
+                            <root>target/generated-sources</root>
+                            <root>target/nar/nar-generated</root>
                         </roots>
                         <excludes>
                             <exclude>**/*.xml</exclude>
@@ -119,151 +317,6 @@
                             <phase>process-sources</phase>
                         </execution>
                     </executions>
-                </plugin>
-
-                <!-- Set default version of Java -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-compiler-plugin</artifactId>
-                    <version>3.1</version>
-                    <configuration>
-                        <source>1.7</source>
-                        <target>1.7</target>
-                    </configuration>
-                </plugin>
-
-                <!-- Unit test plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-surefire-plugin</artifactId>
-                    <version>2.17</version>
-                    <configuration>
-                        <!-- Raise max memory for unit tests -->
-                        <!-- Added to fix run of emma with Java 7. See http://stackoverflow.com/questions/7010665/testng-emma-cobertura-coverage-and-jdk-7-result-in-classformaterror-and-verif -->
-                        <argLine>-Xmx1536m -XX:-UseSplitVerifier</argLine>
-                        <!-- Ignore 'long' JAR tests by default -->
-                        <excludes>
-                            <exclude>**/*L.java</exclude>
-                        </excludes>
-                        <!-- Set temporary file directory -->
-                        <systemPropertyVariables>
-                            <java.io.tmpdir>${tmpdir}</java.io.tmpdir>
-                        </systemPropertyVariables>
-                    </configuration>
-                </plugin>
-
-                <!-- Unit test coverage plugin -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>emma-maven-plugin</artifactId>
-                    <version>1.0-alpha-3</version>
-                </plugin>
-
-                <!-- Needs the oodrive version of the NAR plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-nar-plugin</artifactId>
-                    <version>2.1-oodrive</version>
-                    <extensions>true</extensions>
-                    <configuration>
-                        <!-- Ignore 'long' NAR tests by default -->
-                        <excludes>
-                            <exclude>**/*L.java</exclude>
-                            <exclude>**/*$*</exclude>
-                        </excludes>
-                        <!-- Set temporary file directory -->
-                        <systemProperties>
-                            <property>
-                                <name>java.io.tmpdir</name>
-                                <value>${tmpdir}</value>
-                            </property>
-                        </systemProperties>
-                    </configuration>
-                </plugin>
-
-                <!-- Integration test plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-failsafe-plugin</artifactId>
-                    <version>2.16</version>
-                    <executions>
-                        <execution>
-                            <goals>
-                                <goal>integration-test</goal>
-                                <goal>verify</goal>
-                            </goals>
-                        </execution>
-                    </executions>
-                </plugin>
-
-                <!-- Create jar with dependencies -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-shade-plugin</artifactId>
-                    <version>2.2</version>
-                </plugin>
-
-                <!-- Assembly plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-assembly-plugin</artifactId>
-                    <version>2.4</version>
-                </plugin>
-
-                <!-- Clean plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-clean-plugin</artifactId>
-                    <version>2.5</version>
-                </plugin>
-
-                <!-- Jar plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-jar-plugin</artifactId>
-                    <version>2.4</version>
-                </plugin>
-
-                <!-- War plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>2.4</version>
-                </plugin>
-
-                <!-- Source plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-source-plugin</artifactId>
-                    <version>2.2.1</version>
-                </plugin>
-
-                <!-- Ant run plugin -->
-                <plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-antrun-plugin</artifactId>
-                    <version>1.7</version>
-                </plugin>
-
-                <!-- Apache CXF wadl2java plugin -->
-                <plugin>
-                    <groupId>org.apache.cxf</groupId>
-                    <artifactId>cxf-wadl2java-plugin</artifactId>
-                    <version>2.7.5</version>
-                </plugin>
-
-                <!-- Codehaus build number plugin -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>buildnumber-maven-plugin</artifactId>
-                    <version>1.2</version>
-                </plugin>
-
-                <!-- Codehaus exec plugin -->
-                <plugin>
-                    <groupId>org.codehaus.mojo</groupId>
-                    <artifactId>exec-maven-plugin</artifactId>
-                    <version>1.2.1</version>
                 </plugin>
 
                 <!-- Workaround the lack of m2eclipse plugin for NAR projects. See http://stackoverflow.com/questions/6352208/how-to-solve-plugin-execution-not-covered-by-lifecycle-configuration-for-sprin 
@@ -320,7 +373,7 @@
                                     <pluginExecutionFilter>
                                         <groupId>org.apache.cxf</groupId>
                                         <artifactId>cxf-wadl2java-plugin</artifactId>
-                                        <versionRange>[2.4.2,)</versionRange>
+                                        <versionRange>[3.0.1,)</versionRange>
                                         <goals>
                                             <goal>wadl2java</goal>
                                         </goals>
@@ -335,7 +388,7 @@
                                     <pluginExecutionFilter>
                                         <groupId>org.apache.maven.plugins</groupId>
                                         <artifactId>maven-antrun-plugin</artifactId>
-                                        <versionRange>[1.6,)</versionRange>
+                                        <versionRange>[1.7,)</versionRange>
                                         <goals>
                                             <goal>run</goal>
                                         </goals>
@@ -348,7 +401,7 @@
                                     <pluginExecutionFilter>
                                         <groupId>org.codehaus.mojo</groupId>
                                         <artifactId>exec-maven-plugin</artifactId>
-                                        <versionRange>[1.2.1,)</versionRange>
+                                        <versionRange>[1.3.2,)</versionRange>
                                         <goals>
                                             <goal>exec</goal>
                                         </goals>

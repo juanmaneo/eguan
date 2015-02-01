@@ -4,7 +4,7 @@ package com.oodrive.nuage.nrs;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -23,8 +23,7 @@ package com.oodrive.nuage.nrs;
 import java.io.IOException;
 import java.util.List;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.oodrive.nuage.configuration.MetaConfiguration;
@@ -46,7 +45,7 @@ public final class TestNrsFileMapping extends TestNrsFileJanitorAbstract {
 
         janitor.init();
         try {
-            final NrsFile nrsFile = createTestNrsFile(janitor, config, true, false, false, false);
+            final NrsFile nrsFile = createTestNrsFile(janitor, config, false, false, false);
             nrsFile.getFileMapping(HashAlgorithm.MD5);
         }
         finally {
@@ -61,7 +60,7 @@ public final class TestNrsFileMapping extends TestNrsFileJanitorAbstract {
 
         janitor.init();
         try {
-            final NrsFile nrsFile = createTestNrsFile(janitor, config, true, false, true, false);
+            final NrsFile nrsFile = createTestNrsFile(janitor, config, false, true, false);
             final NrsFile nrsFileOpened = janitor.openNrsFile(nrsFile.getDescriptor().getFileId(), true);
             try {
                 nrsFileOpened.getFileMapping(HashAlgorithm.MD5);
@@ -82,7 +81,7 @@ public final class TestNrsFileMapping extends TestNrsFileJanitorAbstract {
 
         janitor.init();
         try {
-            final NrsFile nrsFile = createTestNrsFile(janitor, config, true, false, false, false);
+            final NrsFile nrsFile = createTestNrsFile(janitor, config, false, false, false);
             final NrsFile nrsFileOpened = janitor.openNrsFile(nrsFile.getDescriptor().getFileId(), false);
 
             try {

@@ -4,7 +4,7 @@ package com.oodrive.nuage.vvr.repository.core.api;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -195,35 +195,4 @@ public interface Snapshot extends VvrItem {
      * @return the official time this snapshot was created
      */
     Date getSnapshotTime();
-
-    /**
-     * Builder for a snapshot instance, essentially forces to implement the {@link #build()} method.
-     * 
-     * 
-     */
-    interface Builder extends VvrItem.Builder {
-
-        /**
-         * The device of which to take the snapshot.
-         * <p>
-         * 
-         * <i>REQUIRED</i> except when creating the root snapshot.
-         * 
-         * @param device
-         *            the existing device
-         * @return the modified builder
-         */
-        Builder device(Device device);
-
-        /**
-         * Builds the snapshot instance.
-         * <p>
-         * 
-         * Implementing classes must throw exceptions should the build fail for some reason rather than return a faulty
-         * instance or null.
-         * 
-         * @return the fully functional object instance
-         */
-        Snapshot build();
-    }
 }

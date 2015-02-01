@@ -4,7 +4,7 @@ package com.oodrive.nuage.vold;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -77,7 +77,9 @@ public final class VoldDtxResourceManager implements DtxResourceManager {
         }
         catch (final InvalidProtocolBufferException e) {
             LOGGER.warn("Could not start VoldDtxResourceManager !", e);
-            throw new XAException(XAException.XAER_INVAL);
+            final XAException xaException = new XAException(XAException.XAER_INVAL);
+            xaException.initCause(e);
+            throw xaException;
         }
     }
 

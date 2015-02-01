@@ -4,7 +4,7 @@ package com.oodrive.nuage.vold;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,8 +21,8 @@ package com.oodrive.nuage.vold;
  */
 
 import static org.junit.Assert.assertEquals;
-import junit.framework.Assert;
 
+import org.junit.Assert;
 import org.junit.Test;
 
 import com.oodrive.nuage.vold.model.VvrManagerMXBean;

@@ -4,7 +4,7 @@ package com.oodrive.nuage.nrs;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -113,10 +113,7 @@ public class TestNrsFileHeader {
 
     @Test(expected = IllegalStateException.class)
     public void testNrsFileHeaderInvalidSize() {
-        final int blockSize = 6541;
         final int size = -1;
-        final int hashSize = 550;
-        final int clusterSize = 1240;
         final NrsFileHeader.Builder<NrsFile> headerBuilder = new NrsFileHeader.Builder<>();
         final UuidT<NrsFile> parent = SimpleIdentifierProvider.newId();
         headerBuilder.parent(parent);
@@ -127,14 +124,6 @@ public class TestNrsFileHeader {
         final UuidT<NrsFile> fileId = SimpleIdentifierProvider.newId();
         headerBuilder.file(fileId);
         headerBuilder.size(size);
-        headerBuilder.blockSize(blockSize);
-        headerBuilder.hashSize(hashSize);
-        headerBuilder.clusterSize(clusterSize);
-        final long now = System.currentTimeMillis();
-        headerBuilder.timestamp(now);
-        headerBuilder.addFlags(NrsFileFlag.ROOT);
-
-        headerBuilder.build();
     }
 
     /**

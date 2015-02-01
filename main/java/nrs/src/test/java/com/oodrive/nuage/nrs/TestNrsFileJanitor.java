@@ -4,7 +4,7 @@ package com.oodrive.nuage.nrs;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,8 +30,7 @@ import java.nio.file.attribute.BasicFileAttributes;
 import java.util.Arrays;
 import java.util.Collection;
 
-import junit.framework.Assert;
-
+import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
@@ -63,7 +62,7 @@ public final class TestNrsFileJanitor extends TestNrsFileJanitorAbstract {
         janitor.init();
         try {
 
-            final NrsFile nrsFile = createTestNrsFile(janitor, config, blocks, blocks);
+            final NrsFile nrsFile = createTestNrsFile(janitor, config, blocks);
             final int clusterSize = janitor.newNrsFileHeaderBuilder().clusterSize();
 
             // Check file
@@ -287,7 +286,7 @@ public final class TestNrsFileJanitor extends TestNrsFileJanitorAbstract {
 
         janitor.init();
         try {
-            final NrsFile nrsFile = createTestNrsFile(janitor, config, true, blocks);
+            final NrsFile nrsFile = createTestNrsFile(janitor, config, blocks);
             janitor.clearCache();
 
             // Reduce file size (less than the header length): NrsFile or blocks file
@@ -311,7 +310,7 @@ public final class TestNrsFileJanitor extends TestNrsFileJanitorAbstract {
 
         janitor.init();
         try {
-            final NrsFile nrsFile = createTestNrsFile(janitor, config, true, blocks);
+            final NrsFile nrsFile = createTestNrsFile(janitor, config, blocks);
             janitor.clearCache();
 
             // Reduce file size (less than the header length): NrsFile or blocks file
@@ -335,7 +334,7 @@ public final class TestNrsFileJanitor extends TestNrsFileJanitorAbstract {
 
         janitor.init();
         try {
-            final NrsFile nrsFile = createTestNrsFile(janitor, config, true, blocks);
+            final NrsFile nrsFile = createTestNrsFile(janitor, config, blocks);
             janitor.clearCache();
 
             // Delete file: NrsFile or blocks file
@@ -359,7 +358,7 @@ public final class TestNrsFileJanitor extends TestNrsFileJanitorAbstract {
         try {
             initDone = true;
 
-            final NrsFile nrsFile = createTestNrsFile(janitor, config, true, blocks);
+            final NrsFile nrsFile = createTestNrsFile(janitor, config, blocks);
 
             // Open the file RO
             {
@@ -683,7 +682,7 @@ public final class TestNrsFileJanitor extends TestNrsFileJanitorAbstract {
 
         janitor.init();
         try {
-            final NrsFile nrsFile = createTestNrsFile(janitor, config, true, blocks);
+            final NrsFile nrsFile = createTestNrsFile(janitor, config, blocks);
             Assert.assertFalse(janitor.isSealed(nrsFile));
             janitor.sealNrsFile(nrsFile);
             Assert.assertTrue(janitor.isSealed(nrsFile));

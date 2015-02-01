@@ -4,7 +4,7 @@ package com.oodrive.nuage.nrs;
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2014 Oodrive
+ * Copyright (C) 2012 - 2015 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,9 +28,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.UUID;
 
+import javax.annotation.Nonnegative;
 import javax.annotation.Nonnull;
 import javax.annotation.concurrent.Immutable;
 
+import com.google.common.base.MoreObjects;
 import com.oodrive.nuage.utils.SimpleIdentifierProvider;
 import com.oodrive.nuage.utils.UuidT;
 
@@ -303,9 +305,25 @@ public final class NrsFileHeader<U> {
         return blocks;
     }
 
+    /**
+     * Gets the flags set for the associated {@link NrsFile}.
+     * 
+     * @return the flags set on the {@link NrsFile}.
+     */
+    public final Set<NrsFileFlag> getFlags() {
+        final Set<NrsFileFlag> flags = EnumSet.noneOf(NrsFileFlag.class);
+        if (root)
+            flags.add(NrsFileFlag.ROOT);
+        if (partial)
+            flags.add(NrsFileFlag.PARTIAL);
+        if (blocks)
+            flags.add(NrsFileFlag.BLOCKS);
+        return flags;
+    }
+
     @Override
     public final String toString() {
-        return com.google.common.base.Objects.toStringHelper(this).add("parentID", this.getParentId())
+        return MoreObjects.toStringHelper(this).add("parentID", this.getParentId())
                 .add("deviceID", this.getDeviceId()).add("nodeID", this.getNodeId()).add("fileID", this.getFileId())
                 .add("size", this.getSize()).add("blockSize", this.getBlockSize())
                 .add("clusterSize", this.getClusterSize()).add("hashSize", this.getHashSize())
@@ -378,14 +396,7 @@ public final class NrsFileHeader<U> {
         outputBuffer.putInt(getH1Address());
 
         outputBuffer.putLong(getTimestamp());
-        final Set<NrsFileFlag> flags = EnumSet.noneOf(NrsFileFlag.class);
-        if (root)
-            flags.add(NrsFileFlag.ROOT);
-        if (partial)
-            flags.add(NrsFileFlag.PARTIAL);
-        if (blocks)
-            flags.add(NrsFileFlag.BLOCKS);
-        NrsFileFlag.encodeFlags(outputBuffer, flags);
+        NrsFileFlag.encodeFlags(outputBuffer, getFlags());
     }
 
     /**
@@ -507,7 +518,7 @@ public final class NrsFileHeader<U> {
         /**
          * The item size in bytes.
          */
-        private long itemSize;
+        private long itemSize = -1;
         /**
          * The item block size.
          */
@@ -560,7 +571,10 @@ public final class NrsFileHeader<U> {
             return this;
         }
 
-        public final Builder<U> size(final long size) {
+        public final Builder<U> size(final @Nonnegative long size) {
+            if (size < 0) {
+                throw new IllegalStateException("Invalid size=" + size);
+            }
             this.itemSize = size;
             return this;
         }
@@ -622,6 +636,12 @@ public final class NrsFileHeader<U> {
          */
         public final Builder<U> flags(final Set<NrsFileFlag> flags) {
             this.flags = flags;
+            return this;
+        }
+
+        public final Builder<U> setFlags(final @Nonnull Set<NrsFileFlag> flags) {
+            this.flags = EnumSet.noneOf(NrsFileFlag.class);
+            this.flags.addAll(Objects.requireNonNull(flags));
             return this;
         }
 
