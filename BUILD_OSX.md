@@ -36,7 +36,7 @@ export JAVA_HOME=/Library/Java/JavaVirtualMachines/jdk1.7.0_45.jdk/Contents/Home
 export PATH=$JAVA_HOME/bin:$PATH
 export LD_LIBRARY_PATH=$JAVA_HOME/lib:$LD_LIBRARY_PATH
 
-- conflict with system binaries, check .zshrc file and add something like this:
+- conflict with system binaries, check .bashrc/.zshrc of favorite shell confuguration file and add something like this:
 # for home brew tools before system one
 export PATH=/usr/local/bin:$PATH
 export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
