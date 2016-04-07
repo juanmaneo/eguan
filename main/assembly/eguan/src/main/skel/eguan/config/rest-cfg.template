@@ -1,0 +1,4 @@
+io.eguan.jetty.server.address=IO_EGUAN_JETTY_SERVER_ADDRESS
+io.eguan.jetty.server.port=IO_EGUAN_JETTY_SERVER_PORT
+io.eguan.jetty.shutdownOnExit=IO_EGUAN_JETTY_SHUTDOWNONEXIT
+io.eguan.jetty.rest.contextpath=IO_EGUAN_JETTY_REST_CONTEXTPATH

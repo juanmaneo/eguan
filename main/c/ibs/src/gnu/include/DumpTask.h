@@ -2,7 +2,7 @@
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2015 Oodrive
+ * Copyright (C) 2012 - 2016 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -37,8 +37,8 @@ class IbpGenHandler;
  */
 class DumpTask: public AbstractTask<IbpGenHandler> {
     public:
-        DumpTask(IbpGenHandler& ipbGen) :
-                AbstractTask(ipbGen), dumping(false) {
+        DumpTask(IbpGenHandler& ibpGen) :
+                AbstractTask(ibpGen), dumping(false) {
         }
 
         virtual void createThread() {

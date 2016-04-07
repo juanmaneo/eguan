@@ -2,7 +2,7 @@
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2015 Oodrive
+ * Copyright (C) 2012 - 2016 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -217,7 +217,7 @@ class Controller: public AbstractController {
         /**
          * @brief Check that the persisted configuration file is consistent with the new one, checking ibp path.
          * @param Absolute path of the ibpgen
-         * @param Contain the ipb paths "list"
+         * @param Contain the ibp paths "list"
          * @return false only if the new configuration is not consistent concerning ibp path
          */
         bool checkIbpPath(const std::string& old_ibpgen_path, const std::vector<std::string>& ibp_paths);

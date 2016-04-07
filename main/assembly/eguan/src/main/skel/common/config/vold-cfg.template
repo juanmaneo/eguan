@@ -1,0 +1,11 @@
+io.eguan.vold.owner=IO_EGUAN_VOLD_OWNER
+io.eguan.vold.node=IO_EGUAN_VOLD_NODE
+io.eguan.vold.peers=IO_EGUAN_VOLD_PEERS
+io.eguan.vold.server.address=IO_EGUAN_VOLD_SERVER_ADDRESS
+io.eguan.vold.server.port=IO_EGUAN_VOLD_SERVER_PORT
+io.eguan.vold.iscsi.started=IO_EGUAN_VOLD_ISCSI_STARTED
+io.eguan.iscsisrv.address=IO_EGUAN_ISCSISRV_ADDRESS
+io.eguan.iscsisrv.port=IO_EGUAN_ISCSISRV_PORT
+io.eguan.vold.nbd.started=IO_EGUAN_VOLD_NBD_STARTED
+io.eguan.nbdsrv.address=IO_EGUAN_NBDSRV_ADDRESS
+io.eguan.nbdsrv.port=IO_EGUAN_NBDSRV_PORT

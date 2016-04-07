@@ -2,7 +2,7 @@
  * #%L
  * Project eguan
  * %%
- * Copyright (C) 2012 - 2015 Oodrive
+ * Copyright (C) 2012 - 2016 Oodrive
  * %%
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -28,7 +28,7 @@ using namespace std;
 
 #define GTEST_COLOR
 
-class NuagePrinter: public ::testing::EmptyTestEventListener {
+class EguanPrinter: public ::testing::EmptyTestEventListener {
         virtual void OnTestProgramStart(const ::testing::UnitTest& test) {
             setParentDir(std::string("/tmp/") + "IBS_TESTS_" + randomName() + "/");
             parentDir = getParentDir();
@@ -102,7 +102,7 @@ GTEST_API_ int main(int argc, char **argv) {
 
     if (keepDefaultPrinter == false) {
         delete listeners.Release(listeners.default_result_printer());
-        listeners.Append(new NuagePrinter);
+        listeners.Append(new EguanPrinter);
         listeners.Append(new tap::TapListener());
     }
     startTime = std::chrono::system_clock::now();
